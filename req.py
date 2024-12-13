@@ -7,18 +7,13 @@ from dotenv import load_dotenv
 
 load_dotenv()  # Load environment variables from .env
 
-url = os.getenv('API_URL')
+url = "https://ffmemes-adm--ffmemes-ocr-modal-webapp-predict-dev.modal.run"
 
 # Query parameters
-params = {
-    "lang": "ru"
-}
+params = {"lang": "ru"}
 
 # Headers for binary data
-headers = {
-    "accept": "application/json",
-    "Content-Type": "application/octet-stream"
-}
+headers = {"accept": "application/json", "Content-Type": "application/octet-stream"}
 
 # Read image as binary
 with open("receipt.png", "rb") as image_file:
@@ -27,11 +22,10 @@ with open("receipt.png", "rb") as image_file:
 # Start measuring time
 start = time.time()
 
-# Make POST request with raw bytes
-response = requests.post(url,
-                       params=params,
-                       headers=headers,
-                       data=image_bytes)  # Send raw bytes directly
+# Make POST request with raw bytes, sending image directly
+response = requests.post(
+    url, params=params, headers=headers, data=image_bytes
+)  # Send raw bytes directly
 
 # Print response
 print(response.json())

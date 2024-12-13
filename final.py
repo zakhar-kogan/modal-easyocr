@@ -124,11 +124,16 @@ class WebApp:
         print("🏁 Starting!")
 
     from fastapi import UploadFile, File, Body
+    from typing import List, Union, Tuple
+    
+    # More precise typing for OCR results
+    BBox = List[List[int]]  # [[x1,y1], [x2,y2], [x3,y3], [x4,y4]]
+    OCRResult = List[Tuple[BBox, str]]  # List of [bbox, text] pairs
 
     # Prediction REST endpoint which we'll use to perform OCR
     @modal.web_endpoint(method="POST", docs=True)
     # async def predict(self, image: UploadFile = File(...), lang: str = "en") -> str:
-    async def predict(self, image: bytes = Body(...), lang: str = "ru") -> str | dict[str, str | list]:
+    async def predict(self, image: bytes = Body(...), lang: str = "ru") -> Union[str, OCRResult]:
         """
         Performs optical character recognition (OCR) on the provided image file.
 
